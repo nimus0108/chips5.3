@@ -16,9 +16,13 @@
   <% end %>
   <thead>
     <tr>
-      <th>Movie Title</th>
+      <th class=" <%= (@sort_by == 'title' ? 'hilite bg-warning' : '') %>">
+        <%= link_to "Movie Title", movies_path({"sort_by" => "title", "ratings" => Hash[@ratings_to_show.collect {|r| [r, 1]}]}), id: "title_header" %>
+      </th>
       <th>Rating</th>
-      <th>Release Date</th>
+      <th class=" <%= (@sort_by == 'release_date' ? 'hilite bg-warning' : '') %>">
+        <%= link_to "Release Date", movies_path({"sort_by" => "release_date", "ratings" => Hash[@ratings_to_show.collect {|r| [r, 1]}]}), id: "release_date_header" %>
+      </th>
       <th>More Info</th>
     </tr>
   </thead>

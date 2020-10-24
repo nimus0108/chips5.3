@@ -9,14 +9,30 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.all_ratings
 
-    if params[:ratings] == nil
-      @ratings_to_show = Movie.all_ratings
-    else
+    if params.has_key?(:ratings)
       @ratings_to_show = params[:ratings].keys
+      session[:ratings] = params[:ratings]
+    else
+      if session.has_key?(:ratings)
+        @ratings_to_show = session[:ratings].keys
+      else
+        @ratings_to_show = Movie.all_ratings
+      end
+
     end
 
     @movies = Movie.with_ratings(@ratings_to_show)
 
+    if params.has_key?(:sort_by)
+      @sort_by = params[:sort_by]
+      @movies = @movies.order(@sort_by)
+      session[:sort_by] = @sort_by
+    else
+      if session.has_key?(:sort_by)
+        @sort_by = session[:sort_by]
+        @movies = @movies.order(@sort_by)
+      end
+    end
   end
 
   def new
